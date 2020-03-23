@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+		<meta name="viewport" value="width=device-width, initial-scale= 1;">
+        <title>Coffee App</title>
+		<link rel="stylesheet" href="./css/myboot.css">
+		<script type="module" src="./scripts/main.mjs"></script>
+		<script src="./testdata.js" defer></script>
+		<style>
+		@media (min-width: 1200px){
+				.container{
+						max-width: 25vw;
+				}
+		}
+		</style>
+</head>
+<body class="container">
+		<header> <h1>CoffeeRun</h1> </header>
+		<section class="card-columns">
+				<div class="card">
+				        <div class="card__body">
+								<form data-coffee-order="form">
+										<div class="form-group">
+												<label for="coffeeOrder">Coffee Order</label>
+												<input id="coffeeOrder" class="form-control" name="order" autofocus required>
+										</div>
+										<div class="form-group">
+												<label for="email">Email</label>
+												<input id="email" type="email" class="form-control" name="email" placeholder="someone@example.com" required>
+										</div>
+										<div class="form-group">
+												<div class="form-radio">
+														<input class="form-radio__input" type="radio" name="size" value="short" required checked>
+														<label class="form-radio__label">
+																Short
+														</label>
+												</div>
+												<div class="form-radio">
+														<input class="form-radio__input" type="radio" name="size" value="tall" required>
+														<label class="form-radio__label">
+																Tall
+														</label>
+												</div>
+												<div class="form-radio">
+														<input class="form-radio__input" type="radio" name="size" value="grande" required>
+														<label class="form-radio__label">
+																Grande
+														</label>
+												</div>
+										</div>
+										<div class="form-group">
+												<label for="flavorShot">Flavor Shot</label>
+												<select id="flavorShot" name="flavor" class="form-control" required>
+														<option value="">None</option>
+														<option value="caramel">Caramel</option>
+														<option value="almond">Almond</option>
+														<option value="mocha">Mocha</option>
+												</select>
+										</div>
+										<div class="form-group">
+												<label for="caffieneRating">Caffeine rating</label>
+												<div class="caffeine-rating">
+														<input type="range" class="caffeine-rating__slider" name="caffeine" value="50" class="form-control-range" min="0" max="100">
+														<span class="caffeine-rating__label"></span>
+												</div>
+										</div>
+										<div class="form-group">
+												<button type="submit" class="btn btn--primary">Submit</button>
+												<button type="reset" class="btn btn--secondary">Reset</button>
+
+										</div>
+								</form> 
+				        </div>
+				</div>
+				<div class="card">
+						<div class="card__header">Pending Orders</div>
+						<div class="card__body" data-coffee-order="checklist">
+						</div>
+				</div>
+		</section>
+</body>

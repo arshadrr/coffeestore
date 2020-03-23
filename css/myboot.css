@@ -1,0 +1,193 @@
+/*
+ * Idk:
+ * 1. css inheritance
+ * 2. css specificity. only know its name ;)
+ *
+ * dos:
+ * - refactor this so that we never use color codes(hex, hsl, etc.), and only use the css variables for the palette defined
+ * - refactor this so that we dont use spacing willy-nilly and only from the scale defined
+ * - remove pxs for ems and rems
+ * - read refactoring UI and come up with a type scale
+ * - read refactoring UI on coming up with a color palette
+ * - read refactoring UI on coming up with spacing scale
+ *
+ * Qs:
+ * - what is .btn-primary:not(:disabled):not(:disabled):active? see bootstrap4 source code
+ * - refactoring UI why should I use HSL over hex?
+ * - how should i structure my classes? which should go first?(other than those that are expected to override going after what they are to overrride)
+ * - how were the .container max-width for the breakpoints decided on?
+ */
+
+:root {
+		/* come up with a properly designed color pallette */
+		--primary: #333;
+		--gray: #ddd;
+		--light-gray: #f5f5f5;
+		--dark-gray: #6c757d;
+		--blue: #007bff;
+		--yellow: #ffc107;
+
+		/* spacing scale */
+		--s-xxxs: 0.25rem;
+		--s-xxs:  0.375rem;
+		--s-xs:   0.5rem;
+		--s-sm:   0.75rem;
+		--s-md:   1.25rem;
+		--s-lg:   2rem;
+		--s-xl:   3.25rem;
+		--s-xxl:  5.25rem;
+		--s-xxxl: 8.5rem;
+}
+
+*,
+*::before,
+*::after {
+		box-sizing: border-box;
+}
+
+
+/* the max-widths feel arbitrary! */
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+.container {
+		/* ive subscribed to the design for hackers email course. it has one chapter on this i think. watch out */
+		padding-left: 15px;
+		padding-right: 15px;
+		margin-left: auto;
+		margin-right: auto;
+}
+
+body {
+		margin: 0;
+		font-family: "Segoe UI";
+		color: var(--primary);
+}
+
+label {
+		display: inline-block;  /*required to have a margin-bottom*/
+		margin-bottom: 0.5rem;
+}
+
+h1{
+		font-weight: 500; /* shouldnt i have a typography scale which dictates how stuff like font weights should show up?*/
+		font-size: 2.5rem; /* should i be using the scale for font-sizes?*/
+}
+
+.card-columns .card {
+		margin-bottom: 0.75em;
+}
+
+.card {
+		background-color: white;
+		border: 1px solid rgba(0, 0, 0, 0.125);
+		border-radius: 0.25rem; /* should border-radius use my sizing scale?*/
+}
+
+.card__body {
+		padding: 1.25rem;
+}
+
+.card__header {
+		padding: 0.75rem 1.25rem;
+		background-color: rgba(0, 0, 0, 0.05);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+		border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0; /* should border-radius use my sizing scale?*/
+}
+
+
+.form-group {
+		margin-bottom: 1rem;
+}
+
+.form-group:last-of-type {
+		margin-bottom: 0;
+}
+
+.form-group--active {
+		background-color: var(--gray);
+		border-radius: 0.25rem;
+}
+
+.form-group--editing {
+		background-color: var(--yellow);
+		border-radius: 0.25rem;
+}
+
+.form-control {
+		display: block;
+		width: 100%;
+		padding: 0.5rem 1rem;
+		border: 1px solid rgb(0, 0, 0, 0.125);
+		border-radius: 0.25rem; /* should border-radius use my sizing scale?*/
+}
+
+.form-radio {
+		padding-left: 1.25rem;
+}
+
+.form-radio__input {
+		position: absolute;
+		margin-top: 0.25rem;
+		margin-left: -1.25rem;
+}
+
+.form-radio__label {
+		margin-bottom: 0;
+}
+
+.form-control-range {
+		display: block;
+		width: 100%;
+}
+
+.btn {
+		border: 1px solid transparent;
+		border-radius: 0.25rem;
+		background-color: transparent;
+		padding: 0.5rem 0.75rem;
+		cursor: pointer;
+		font-size: 1rem;
+}
+
+.btn--primary {
+		color: white;
+		background-color: var(--blue);
+}
+
+.btn--secondary {
+		color: white;
+		background-color: var(--dark-gray);
+}
+
+.caffeine-rating {
+		display: flex;
+		align-items: center;
+}
+
+.caffeine-rating__slider {
+		flex-grow: 1;
+}
+
+.caffeine-rating__label {
+		font-size: 1em;
+		padding: 0 1em;
+		border-radius: 0.25em;
+		margin-left: 1em;
+		background-color: hsl(150, 100%, 50%);
+}
