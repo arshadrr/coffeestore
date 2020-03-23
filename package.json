@@ -1,0 +1,31 @@
+{
+  "name": "bnrbootstrap",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "type": "module",
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-env": "^3.3.0",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "dependencies": {
+    "ava": "^3.5.0",
+    "esm": "^3.2.25",
+    "nodelib": "^1.0.0"
+  },
+  "mocha": {
+    "import": [
+      "./test/_setup.js"
+    ]
+  }
+}
