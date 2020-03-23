@@ -138,6 +138,7 @@ h1{
 }
 
 .form-radio {
+		/* the form radio class is used to make the radio label text wrap properly. when the text wraps, we want the next line to be indented and not show up right below the radio. to see what i mean, have the label be a line of many words so that its too long to fit and wraps. remove this module and see the difference*/
 		padding-left: 1.25rem;
 }
 
