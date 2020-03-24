@@ -19,8 +19,8 @@ export default class Checklist {
 
 		makeNewRow(formData){
 				let newrow = this.cachedChecklistItemElement.cloneNode(true);
-				let labelEl = newrow.firstElementChild;
-				let inputEl = labelEl.firstElementChild;
+				let inputEl = newrow.firstElementChild;
+				let labelEl = inputEl.nextElementSibling;
 
 				inputEl.setAttribute('value', formData.get('email'));
 
@@ -39,8 +39,8 @@ export default class Checklist {
 				inputEl.setAttribute('type', 'checkbox')
 				inputEl.setAttribute('value', '')
 
-				formGroup.append(labelEl);
 				formGroup.append(inputEl);
+				formGroup.append(labelEl);
 
 				return formGroup
 		}
@@ -50,6 +50,8 @@ export default class Checklist {
 		}
 
 		removeRow(email){
+				//TODO: write tests for this.
+				//TODO: when you use browser-env, the document object is shared between all your test. this cant be good
 				this.checklistElement
 						.querySelector(`[value="${email}"]`)
 						.parentElement
