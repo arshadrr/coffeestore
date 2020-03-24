@@ -50,11 +50,9 @@ export default class Checklist {
 		}
 
 		removeRow(email){
-				//TODO: write tests for this.
 				//TODO: when you use browser-env, the document object is shared between all your test. this cant be good
 				this.checklistElement
 						.querySelector(`[value="${email}"]`)
-						.parentElement
 						.parentElement
 						.remove();
 		}
