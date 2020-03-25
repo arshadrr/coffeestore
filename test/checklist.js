@@ -33,8 +33,8 @@ describe('Test CheckList', function() {
 				)
 		})
 
-		describe('test remove row', function(){
-				before(function() {
+		describe('DOM mutating test', function(){
+				beforeEach(function() {
 						document.body.innerHTML = '<div class="card__body" data-coffee-order="checklist"></div>';
 						this.checklist = new Checklist('[data-coffee-order="checklist"]');
 						this.checklist.newRow(new Map([
@@ -55,15 +55,25 @@ describe('Test CheckList', function() {
 				})
 
 								// TODO: test data is everywhere. why duplicate it so much?
-				it('removes the correct checklist item' ,function() {
-						this.checklist.removeRow('person1@example.com');
-						assert.notEqual(
-								document.querySelector('input[value="person2@example.com"]'),
-								null
-						)
+				describe('test removeRow()', function(){
+						it('doesnt remove the other row' ,function() {
+								this.checklist.removeRow('person1@example.com');
+								assert.notEqual(
+										document.querySelector('input[value="person2@example.com"]'),
+										null
+								)
+						})
+						it('removes the specified row', function() {
+								this.checklist.removeRow('person1@example.com');
+								assert.equal(
+										document.querySelector('input[value="person1@example.com"]'),
+										null
+								)
+						})
 				})
 
-				after(function() {
+				afterEach(function() {
+						// should this come after all the it() calls or right after the beforeEach?
 						// should i be setting the variables to undefined? when mocha provides a context, will ALL the functions get the same context??? TODO: experiment with this
 						// TODO: i dont know how nestin before, after, and others will work!!
 						//https://www.zsoltnagy.eu/Asynchronous-Tests-and-Fixtures-with-Mocha-and-ChaiJs/

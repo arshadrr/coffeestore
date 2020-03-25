@@ -14,18 +14,20 @@ export default class FormHandler {
   }
 
   addSubmitHandler (fn) {
-    this.formElement.addEventListener('submit', event => {
-      event.preventDefault()
+		  // TODO: what is 'this' in this case?
+		  // why does 'this' have a `formElement` property
+		  this.formElement.addEventListener('submit', event => {
+				  event.preventDefault()
 
-      const data = new Map(
-        new FormData(this.formElement)
-      )
+				  const data = new Map(
+						  new FormData(this.formElement)
+				  )
 
-      fn(data)
+				  fn(data)
 
-      this.formElement.reset()
-      this.formElement.elements[0].focus()
-    })
+				  this.formElement.reset()
+				  this.formElement.elements[0].focus()
+		  })
   }
 
   populate (formdata){

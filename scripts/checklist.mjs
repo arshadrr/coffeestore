@@ -50,7 +50,7 @@ export default class Checklist {
 		}
 
 		removeRow(email){
-				//TODO: when you use browser-env, the document object is shared between all your test. this cant be good
+				//TODO: refactor this. i dont like having to walk the DOM
 				this.checklistElement
 						.querySelector(`[value="${email}"]`)
 						.parentElement
@@ -61,22 +61,10 @@ export default class Checklist {
 				this.checklistElement.addEventListener(
 						'input',
 						event => {
-								if (!event.target.matches('input')) return;
-
 								let email = event.target.value;
 								this.removeRow(email);
 								callback(email);
 						}
 				)
 		}
-
-		addEditHandler(callback){
-				this.checklistElement.addEditHandler(
-						'click',
-						event => {
-						}
-				)
-		}
-
-
 }

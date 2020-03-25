@@ -18,6 +18,7 @@ export default class RatingColor {
     )
   }
 
+		// TODO: after, submitting form, reset color and rating label to default
   caffeineRatingToHSL (rating) {
     return HIGH_COLOR - (((rating - LOW_RATING) / (HIGH_RATING - LOW_RATING)) * (HIGH_COLOR - LOW_COLOR))
   }

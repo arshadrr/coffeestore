@@ -45,6 +45,29 @@
 		box-sizing: border-box;
 }
 
+body {
+		margin: 0;
+		font-family: "Segoe UI";
+		color: var(--primary);
+}
+
+label {
+		display: inline-block;  /*required to have a margin-bottom*/
+		margin-bottom: 0.5rem;
+}
+
+h1{
+		font-weight: 500; /* shouldnt i have a typography scale which dictates how stuff like font weights should show up?*/
+		font-size: 2.5rem; /* should i be using the scale for font-sizes?*/
+}
+
+.container {
+		/* ive subscribed to the design for hackers email course. it has one chapter on this i think. watch out */
+		padding-left: 15px;
+		padding-right: 15px;
+		margin-left: auto;
+		margin-right: auto;
+}
 
 /* the max-widths feel arbitrary! */
 @media (min-width: 768px) {
@@ -63,30 +86,6 @@
   .container {
     max-width: 1140px;
   }
-}
-
-.container {
-		/* ive subscribed to the design for hackers email course. it has one chapter on this i think. watch out */
-		padding-left: 15px;
-		padding-right: 15px;
-		margin-left: auto;
-		margin-right: auto;
-}
-
-body {
-		margin: 0;
-		font-family: "Segoe UI";
-		color: var(--primary);
-}
-
-label {
-		display: inline-block;  /*required to have a margin-bottom*/
-		margin-bottom: 0.5rem;
-}
-
-h1{
-		font-weight: 500; /* shouldnt i have a typography scale which dictates how stuff like font weights should show up?*/
-		font-size: 2.5rem; /* should i be using the scale for font-sizes?*/
 }
 
 .card-columns .card {
@@ -120,11 +119,13 @@ h1{
 }
 
 .form-group--active {
+		padding: 0.5rem;
 		background-color: var(--gray);
 		border-radius: 0.25rem;
 }
 
 .form-group--editing {
+		padding: 0.5rem;
 		background-color: var(--yellow);
 		border-radius: 0.25rem;
 }
