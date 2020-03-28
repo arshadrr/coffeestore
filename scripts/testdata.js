@@ -1,4 +1,4 @@
-import {elementIfExists} from './utils.js';
+import {populateAndDispatch, elementIfExists} from './utils.js';
 
 export default function insertTestData (buttonSelector, formSelector) {
 		const [buttonElement, formElement] = [buttonSelector, formSelector].map(s => elementIfExists(s))
@@ -14,9 +14,7 @@ export default function insertTestData (buttonSelector, formSelector) {
 		buttonElement.addEventListener(
 				'click',
 				event => {
-						for(const [name, value] of testData){
-								formElement.elements.namedItem(name).value = value;
-						}
+						populateAndDispatch(formElement, testData, new Event('input'));
 				}
 		)
 }

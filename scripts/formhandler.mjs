@@ -1,39 +1,48 @@
+import {populateAndDispatch, dispatchToControl, elementIfExists} from './utils.js';
+
+
 export default class FormHandler {
-  constructor (selector) {
-    if (!selector) {
-      throw new Error('No selector provided')
-    }
+		constructor (selector) {
+				this.formElement = elementIfExists(selector);
 
-    this.formElement = document.querySelector(selector)
-    if (this.formElement.length === 0) {
-      throw new Error('Could not find element with selector: ' + selector)
-    }
-	if (!this.formElement instanceof HTMLFormElement){
-	  throw new Error('Not an HTMLFormElement' + selector)
-	}
-  }
+				if (!this.formElement instanceof HTMLFormElement){
+						throw new Error('Not an HTMLFormElement' + selector)
+				}
 
-  addSubmitHandler (fn) {
-		  // TODO: what is 'this' in this case?
-		  // why does 'this' have a `formElement` property
-		  this.formElement.addEventListener('submit', event => {
-				  event.preventDefault()
+				this.resetButton = this.formElement.querySelector('button[type="reset"]')
+				// if element exists, register event handler
+				if(this.resetButton) this.resetButton.addEventListener('click', e => this.resetForm(e))
+		}
 
-				  const data = new Map(
-						  new FormData(this.formElement)
-				  )
+		addSubmitHandler (fn) {
+				this.formElement.addEventListener('submit', event => {
+						event.preventDefault()
 
-				  fn(data)
+						const data = new Map(
+								// get the data entered into this.formElement
+								new FormData(this.formElement)
+						)
 
-				  this.formElement.reset()
-				  this.formElement.elements[0].focus()
-		  })
-  }
+						// pass the form data to the callback
+						fn(data)
 
-  populate (formdata){
-		  let elements = this.formElement.elements
-		  for (const [name, value] of formdata){
-				  elements.namedItem(name).value = value
-		  }
-  }
+						this.formElement.reset()
+						this.formElement.elements[0].focus()
+						// form controls reset. those dependent on form control value can update
+						Array.from(this.formElement.elements)
+								.forEach(control => dispatchToControl(control, new Event('input')))
+				})
+		}
+
+		resetForm (event) {
+				// manually resetting instead of using a reset button as need to trigger input
+				// event on each form control
+				this.formElement.reset()
+				Array.from(this.formElement.elements)
+						.forEach(control => dispatchToControl(control, new Event('input')))
+		}
+
+		populate (formdata) {
+				populateAndDispatch(formElement, testData, new Event('input'));
+		}
 }
