@@ -17,7 +17,7 @@ formHandler.addSubmitHandler(
 		}
 );
 
-checklistHandler.addClickHandler(myTruck.deliverOrder.bind(myTruck))
+checklistHandler.removeItemHandler(myTruck.deliverOrder.bind(myTruck))
 
 new RatingColor('.caffeine-rating__slider', '.caffeine-rating__label');
 

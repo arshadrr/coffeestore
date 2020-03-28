@@ -5,13 +5,13 @@ export default class Truck {
 		}
 
 		createOrder (order) {
-				console.log('Adding order for ' + order.get("email"));
-				this.db.set(order.get("email"), order);
+				console.log('Adding order for ' + order.get("orderid"));
+				this.db.set(order.get("orderid"), order);
 		}
 
-		deliverOrder (customerId) {
-				console.log('Delivering order for ' + customerId);
-				this.db.delete(customerId);
+		deliverOrder (orderID) {
+				console.log('Delivering order for ' + orderID);
+				this.db.delete(orderID);
 		}
 
 		printOrders () {

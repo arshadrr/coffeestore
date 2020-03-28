@@ -10,12 +10,13 @@ function addTestDataButton(selector, id){
 		btn.setAttribute('type', 'button');
 
 		btn.classList.add('btn', 'btn--secondary');
+		btn.style.margin = '1rem 0rem';
 
 		form.append(btn)
 }
 
 const FORM_SELECTOR = '[data-coffee-order="form"]';
-const BUTTON_ID = 'test-data-buttton'
+const BUTTON_ID = 'test-data-button'
 
 addTestDataButton(FORM_SELECTOR, BUTTON_ID)
 insertTestData("#" + BUTTON_ID, FORM_SELECTOR)

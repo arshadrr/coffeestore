@@ -1,14 +1,8 @@
+import {elementIfExists} from './utils.js';
+
 export default class Checklist {
 		constructor (selector) {
-				if(!selector) {
-						throw new Error("No selector provided")
-				}
-
-				this.checklistElement = document.querySelector(selector);
-
-				if(!selector) {
-						throw new Error("Could not find element with selector " + selector);
-				}
+				this.checklistElement = elementIfExists(selector);
 
 				this.cachedChecklistItemElement = this.makeChecklistItemElement();
 		}
@@ -22,7 +16,7 @@ export default class Checklist {
 				let inputEl = newrow.firstElementChild;
 				let labelEl = inputEl.nextElementSibling;
 
-				inputEl.setAttribute('value', formData.get('email'));
+				inputEl.setAttribute('value', formData.get('orderid'));
 
 				labelEl.append(this.makeChecklistLabel(formData));
 
@@ -49,21 +43,21 @@ export default class Checklist {
 				return `${formData.get('size')} ${formData.get('flavor')} ${formData.get('order')}, (${formData.get('email')}) [${formData.get('caffeine')}x]`
 		}
 
-		removeRow(email){
+		removeRow(orderID){
 				//TODO: refactor this. i dont like having to walk the DOM
 				this.checklistElement
-						.querySelector(`[value="${email}"]`)
+						.querySelector(`[value="${orderID}"]`)
 						.parentElement
 						.remove();
 		}
 
-		addClickHandler(callback){
+		removeItemHandler(callback){
 				this.checklistElement.addEventListener(
 						'input',
 						event => {
-								let email = event.target.value;
-								this.removeRow(email);
-								callback(email);
+								let orderID = event.target.value;
+								this.removeRow(orderID);
+								callback(orderID);
 						}
 				)
 		}
