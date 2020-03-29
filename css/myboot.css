@@ -193,3 +193,34 @@ h1{
 		margin-left: 1em;
 		background-color: hsl(150, 100%, 50%);
 }
+
+.checklist-item {
+		margin-bottom: 1rem;
+		padding-left: 1.25rem;
+}
+
+.checklist-item:last-of-type {
+		margin-bottom: 0;
+}
+
+.checklist-item--active {
+		padding: 0.5rem;
+		background-color: var(--gray);
+		border-radius: 0.25rem;
+}
+
+.checklist-item--editing {
+		padding: 0.5rem;
+		background-color: var(--yellow);
+		border-radius: 0.25rem;
+}
+
+.checklist-item__checkbox {
+		position: absolute;
+		margin-top: 0.25rem;
+		margin-left: -1.25rem;
+}
+
+.checklist-item__label {
+		margin-bottom: 0;
+}

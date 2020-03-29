@@ -25,11 +25,13 @@ export default class Checklist {
 
 		makeChecklistItemElement() {
 				let formGroup = document.createElement('div')
-				formGroup.classList.add('form-group')
+				formGroup.classList.add('checklist-item')
 
 				let labelEl = document.createElement('label')
+				labelEl.classList.add('checklist-item__label');
 
 				let inputEl = document.createElement('input')
+				inputEl.classList.add('checklist-item__checkbox');
 				inputEl.setAttribute('type', 'checkbox')
 				inputEl.setAttribute('value', '')
 
