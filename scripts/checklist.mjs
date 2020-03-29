@@ -2,7 +2,11 @@ import {elementIfExists} from './utils.js';
 
 export default class Checklist {
 		constructor (selector) {
+				this.EDIT_STATE_ATTRIBUTE = 'data-edit-state';
+				this.EDIT_STATES = {INACTIVE: null, ACTIVE: 'active', EDITING: 'editing'}
+
 				this.checklistElement = elementIfExists(selector);
+				this.editingElement = undefined;
 
 				this.cachedChecklistItemElement = this.makeChecklistItemElement();
 		}
@@ -16,6 +20,7 @@ export default class Checklist {
 				let inputEl = newrow.firstElementChild;
 				let labelEl = inputEl.nextElementSibling;
 
+				newrow.addEventListener('click', e => this.editItem(e.currentTarget));
 				inputEl.setAttribute('value', formData.get('orderid'));
 
 				labelEl.append(this.makeChecklistLabel(formData));
@@ -62,5 +67,48 @@ export default class Checklist {
 								callback(orderID);
 						}
 				)
+		}
+
+		editItem (element) {
+				let editState = element.getAttribute(this.EDIT_STATE_ATTRIBUTE);
+
+				if (editState === this.EDIT_STATES.INACTIVE) {
+						this.inactiveStateToActive(element)
+						window.setTimeout(() => this.activeTimeoutToInactive(element), 500)
+				}
+				else if (editState === this.EDIT_STATES.ACTIVE) {
+						this.activeStateToEditing(element)
+				}
+				else if (editState === this.EDIT_STATES.EDITING) {
+						this.editingStateToInactive(element)
+				}
+		}
+
+		inactiveStateToActive (element) {
+				element.setAttribute(this.EDIT_STATE_ATTRIBUTE, this.EDIT_STATES.ACTIVE)
+				element.classList.add('checklist-item--active')
+		}
+
+		activeTimeoutToInactive (element) {
+				if (element.getAttribute(this.EDIT_STATE_ATTRIBUTE) !== this.EDIT_STATES.ACTIVE) {
+						return;
+				}
+
+				element.removeAttribute(this.EDIT_STATE_ATTRIBUTE, this.EDIT_STATES.ACTIVE)
+				element.classList.remove('checklist-item--active')
+		}
+
+		activeStateToEditing (element) {
+				if (this.editingElement) this.editingStateToInactive(this.editingElement)
+				this.editingElement = element
+
+				element.setAttribute(this.EDIT_STATE_ATTRIBUTE, this.EDIT_STATES.EDITING)
+				element.classList.remove('checklist-item--active')
+				element.classList.add('checklist-item--editing')
+		}
+
+		editingStateToInactive (element) {
+				element.removeAttribute(this.EDIT_STATE_ATTRIBUTE)
+				element.classList.remove('checklist-item--editing')
 		}
 }
