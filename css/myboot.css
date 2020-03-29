@@ -194,23 +194,31 @@ h1{
 		background-color: hsl(150, 100%, 50%);
 }
 
-.checklist-item {
-		margin-bottom: 1rem;
-		padding-left: 1.25rem;
+.checklist-container {
+		padding: 0;
 }
 
-.checklist-item:last-of-type {
-		margin-bottom: 0;
+.checklist-container:empty:after {
+		content: "No orders. Add some.";
+		display: block;
+		padding: 1.25rem;
+}
+
+.checklist-item {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		padding-right: 1.25rem;
+		/* 1.25rem left margin and 1.25rem more to make up for the checklist-item__checkbox's negative -1.25rem*/
+		padding-left: 2.5rem;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .checklist-item--active {
-		padding: 0.5rem;
 		background-color: var(--gray);
 		border-radius: 0.25rem;
 }
 
 .checklist-item--editing {
-		padding: 0.5rem;
 		background-color: var(--yellow);
 		border-radius: 0.25rem;
 }
@@ -222,5 +230,5 @@ h1{
 }
 
 .checklist-item__label {
-		margin-bottom: 0;
+		-webkit-user-select: none;
 }
