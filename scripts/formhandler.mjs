@@ -1,7 +1,7 @@
 import {populateAndDispatch, dispatchToControl, elementIfExists} from './utils.js';
 
 
-export default class FormHandler {
+class FormHandler {
 		constructor (selector) {
 				this.formElement = elementIfExists(selector);
 
@@ -9,15 +9,9 @@ export default class FormHandler {
 						throw new Error('Not an HTMLFormElement' + selector)
 				}
 
-				this.lastOrderID = 0;
-
 				this.resetButton = this.formElement.querySelector('button[type="reset"]')
 				// if element exists, register event handler
 				if(this.resetButton) this.resetButton.addEventListener('click', e => this.resetForm(e))
-		}
-
-		nextOrderID () {
-				return this.lastOrderID += 1;
 		}
 
 		addSubmitHandler (fn) {
@@ -28,9 +22,6 @@ export default class FormHandler {
 								// get the data entered into this.formElement
 								new FormData(this.formElement)
 						)
-						// include a unique order ID
-						data.set('orderid', this.nextOrderID())
-
 						// pass the form data to the callback
 						fn(data)
 
@@ -53,4 +44,31 @@ export default class FormHandler {
 		populate (formdata) {
 				populateAndDispatch(formElement, testData, new Event('input'));
 		}
+}
+
+class CoffeeFormHandler extends FormHandler {
+		constructor(selector) {
+				super(selector)
+
+				this.lastOrderID = 0;
+		}
+
+		nextOrderID () {
+				return this.lastOrderID += 1;
+		}
+
+		addSubmitHandler (fn) {
+				super.addSubmitHandler(
+						formData => {
+								// include a unique order ID
+								formData.set('orderid', this.nextOrderID())
+								fn(formData)
+						}
+				)
+		}
+}
+
+export {
+		FormHandler,
+		CoffeeFormHandler
 }
