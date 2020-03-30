@@ -21,6 +21,12 @@ export default class Checklist {
 				let labelEl = inputEl.nextElementSibling;
 
 				newrow.addEventListener('click', e => this.editItem(e.currentTarget));
+				newrow.addEventListener(
+						'input',
+						e => {
+								let orderID = event.target.value;
+								this.removeRow(orderID);
+						})
 				inputEl.setAttribute('value', formData.get('orderid'));
 
 				labelEl.append(this.makeChecklistLabel(formData));
@@ -51,10 +57,9 @@ export default class Checklist {
 		}
 
 		removeRow(orderID){
-				//TODO: refactor this. i dont like having to walk the DOM
 				this.checklistElement
 						.querySelector(`[value="${orderID}"]`)
-						.parentElement
+						.closest('.checklist-item')
 						.remove();
 		}
 
@@ -63,7 +68,6 @@ export default class Checklist {
 						'input',
 						event => {
 								let orderID = event.target.value;
-								this.removeRow(orderID);
 								callback(orderID);
 						}
 				)
