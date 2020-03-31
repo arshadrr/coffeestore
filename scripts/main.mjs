@@ -15,4 +15,3 @@ formHandler.addSubmitHandler(
 );
 
 new RatingColor('.caffeine-rating__slider', '.caffeine-rating__label');
-

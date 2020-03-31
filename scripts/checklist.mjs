@@ -1,18 +1,21 @@
 import {elementIfExists} from './utils.js';
 
 export default class Checklist {
-		constructor (selector) {
+		constructor (selector, checklistStore = new Map()) {
 				this.EDIT_STATE_ATTRIBUTE = 'data-edit-state';
 				this.EDIT_STATES = {INACTIVE: null, ACTIVE: 'active', EDITING: 'editing'}
 
-				this.checklistElement = elementIfExists(selector);
-				this.editingElement = undefined;
+				this.checklistElement = elementIfExists(selector)
+				this.cachedChecklistItemElement = this.makeChecklistItemElement()
+				this.checklistStore = checklistStore
 
-				this.cachedChecklistItemElement = this.makeChecklistItemElement();
+				// element currently being edited
+				this.editingElement = undefined
 		}
 
 		newRow(formData) {
-				this.checklistElement.append(this.makeNewRow(formData));
+				this.checklistElement.append(this.makeNewRow(formData))
+				this.checklistStore.set(formData.get('orderid'), formData)
 		}
 
 		makeNewRow(formData){
@@ -24,10 +27,12 @@ export default class Checklist {
 				newrow.addEventListener(
 						'input',
 						e => {
-								let orderID = event.target.value;
+								let orderID = event.target.
+										closest('.checklist-item').
+										getAttribute('data-order-id');
 								this.removeRow(orderID);
 						})
-				inputEl.setAttribute('value', formData.get('orderid'));
+				newrow.setAttribute('data-order-id', formData.get('orderid'));
 
 				labelEl.append(this.makeChecklistLabel(formData));
 
@@ -37,6 +42,7 @@ export default class Checklist {
 		makeChecklistItemElement() {
 				let formGroup = document.createElement('div')
 				formGroup.classList.add('checklist-item')
+				formGroup.setAttribute('data-order-id', '');
 
 				let labelEl = document.createElement('label')
 				labelEl.classList.add('checklist-item__label');
@@ -44,7 +50,6 @@ export default class Checklist {
 				let inputEl = document.createElement('input')
 				inputEl.classList.add('checklist-item__checkbox');
 				inputEl.setAttribute('type', 'checkbox')
-				inputEl.setAttribute('value', '')
 
 				formGroup.append(inputEl);
 				formGroup.append(labelEl);
@@ -56,21 +61,32 @@ export default class Checklist {
 				return `${formData.get('size')} ${formData.get('flavor')} ${formData.get('order')}, (${formData.get('email')}) [${formData.get('caffeine')}x]`
 		}
 
-		removeRow(orderID){
-				this.checklistElement
-						.querySelector(`[value="${orderID}"]`)
-						.closest('.checklist-item')
-						.remove();
-		}
-
 		removeItemHandler(callback){
 				this.checklistElement.addEventListener(
 						'input',
 						event => {
-								let orderID = event.target.value;
+								let orderID = event
+										.target
+										.closest('.checklist-item')
+										.getAttribute('data-order-id')
 								callback(orderID);
 						}
 				)
+		}
+
+		removeRow(orderID){
+				this.checklistElement
+						.querySelector(`[data-order-id="${orderID}"]`)
+						.remove();
+				this.checklistStore.delete(orderID)
+		}
+
+		updateRow (formData) {
+				let checklistItemLabel = this.checklistElement.
+						querySelector(`[data-order-id="${formData.get('orderid')}"] > .checklist-item__label`)
+				checklistItemLabel.textContent = makeChecklistLabel(formData)
+
+				this.checklistStore.set(formData.get('orderid'), formData)
 		}
 
 		editItem (element) {
@@ -82,9 +98,6 @@ export default class Checklist {
 				}
 				else if (editState === this.EDIT_STATES.ACTIVE) {
 						this.activeStateToEditing(element)
-				}
-				else if (editState === this.EDIT_STATES.EDITING) {
-						this.editingStateToInactive(element)
 				}
 		}
 
@@ -98,7 +111,7 @@ export default class Checklist {
 						return;
 				}
 
-				element.removeAttribute(this.EDIT_STATE_ATTRIBUTE, this.EDIT_STATES.ACTIVE)
+				element.removeAttribute(this.EDIT_STATE_ATTRIBUTE)
 				element.classList.remove('checklist-item--active')
 		}
 
@@ -109,10 +122,12 @@ export default class Checklist {
 				element.setAttribute(this.EDIT_STATE_ATTRIBUTE, this.EDIT_STATES.EDITING)
 				element.classList.remove('checklist-item--active')
 				element.classList.add('checklist-item--editing')
+				element.querySelector('.checklist-item__checkbox').disabled = true;
 		}
 
 		editingStateToInactive (element) {
 				element.removeAttribute(this.EDIT_STATE_ATTRIBUTE)
 				element.classList.remove('checklist-item--editing')
+				element.querySelector('.checklist-item__checkbox').disabled = false;
 		}
 }

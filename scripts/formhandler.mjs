@@ -42,8 +42,9 @@ class FormHandler {
 						.forEach(control => dispatchToControl(control, new Event('input')))
 		}
 
-		populate (formdata) {
-				populateAndDispatch(this.formElement, formdata, new Event('input'));
+		populate (formData) {
+				// populate the form with the given data. formData is a Map()
+				populateAndDispatch(this.formElement, formData, new Event('input'));
 		}
 
 		getFormData () {
