@@ -1,21 +1,22 @@
 import {strict as assert} from 'assert';
-import Checklist from '../scripts/checklist.mjs';
+import {Checklist, ChecklistItem} from '../scripts/checklist.mjs';
 
 // TODO: figure out what browser-env actually does. for now we just copied the ava docs until it workd. the code is short.
 // TODO: in the package.json, i set 'mocha': {'import': ['./test/_setup']} . what the heck is that? is it specific to mocha or it something node provides? it was 'ava':{'require': [ 'something']} but i swapped require for import. where can i find docs for this?
-// TODO: TODO: this method of testing is scary. a global document?? each test case has the chance of mutating something about it!
-// is it right to use html strings like this?
+// TODO: this method of testing is scary. a global document?? each test case has the chance of mutating something about it!
+// using an HTML string like this is difficult. the order of attributes within the tag matters!
 // should we be setting up the html by injecting stuff into the document.body?
-describe('Test CheckList', function() {
+describe('Test ChecklistItem', function() {
 		it('makes checklist element', function(){
 				assert.deepEqual(
-						'<div class="form-group"><input type="checkbox" value="hi@example.com"><label>tall mocha iced coffee, (hi@example.com) [12x]</label></div>',
-						new Checklist('*').makeNewRow(new Map([
+						'<div class="checklist-item" data-order-id="12345"><input class="checklist-item__checkbox" type="checkbox"><label class="checklist-item__label">tall mocha iced coffee, (hi@example.com) [12x]</label></div>',
+						ChecklistItem.prototype.makeNewRow(new Map([
 								['size', 'tall'],
 								['flavor', 'mocha'],
 								['order', 'iced coffee'],
 								['email', 'hi@example.com'],
-								['caffeine', '12']
+								['caffeine', '12'],
+								['orderid', '12345']
 						])).outerHTML
 				)
 		})
@@ -23,7 +24,7 @@ describe('Test CheckList', function() {
 		it('makes order label', function(){
 				assert.equal(
 						'tall mocha iced coffee, (hi@example.com) [12x]',
-						Checklist.prototype.makeChecklistLabel(new Map([
+						ChecklistItem.prototype.makeChecklistLabel(new Map([
 								['size', 'tall'],
 								['flavor', 'mocha'],
 								['order', 'iced coffee'],
@@ -32,6 +33,9 @@ describe('Test CheckList', function() {
 						]))
 				)
 		})
+})
+
+describe('Test CheckList', function() {
 
 		describe('DOM mutating test', function(){
 				beforeEach(function() {

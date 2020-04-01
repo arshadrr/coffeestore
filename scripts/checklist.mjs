@@ -1,42 +1,74 @@
 import {elementIfExists} from './utils.js';
 
-export default class Checklist {
-		constructor (selector, checklistStore = new Map()) {
+class Checklist {
+		constructor (selector, orderStore = new Map(), checklistItemStore = new Map()) {
+				this.checklistElement = elementIfExists(selector)
+
+				this.checklistItemStore = checklistItemStore
+				this.orderStore = orderStore
+		}
+
+		newRow (order) {
+				let orderID = order.get('orderid')
+
+				let item = new ChecklistItem(this.checklistElement, order)
+				item.addRemoveHandler(() => this.removeItem(orderID))
+				item.addStartEditingHandler((onEditHandler, doneEditHandler) => {
+						this.startEditingHandler(order, onEditHandler, doneEditHandler)
+				})
+
+				this.orderStore.set(orderID, order)
+				this.checklistItemStore.set(orderID, item)
+		}
+
+		removeItem (orderID) {
+				this.checklistItemStore.delete(orderID)
+				this.orderStore.delete(orderID)
+		}
+
+		updateOrder (order) {
+				let orderID = order.get('orderid')
+
+				this.orderStore.set(orderID, order)
+		}
+
+		addStartEditingHandler (startEditingHandler) {
+				this.startEditingHandler = startEditingHandler
+		}
+}
+
+class ChecklistItem {
+		constructor (checklistElement, order) {
 				this.EDIT_STATE_ATTRIBUTE = 'data-edit-state';
 				this.EDIT_STATES = {INACTIVE: null, ACTIVE: 'active', EDITING: 'editing'}
 
-				this.checklistElement = elementIfExists(selector)
-				this.cachedChecklistItemElement = this.makeChecklistItemElement()
-				this.checklistStore = checklistStore
-
-				// element currently being edited
-				this.editingElement = undefined
+				this.checklistItemElement = this.makeNewItem(order)
+				checklistElement.append(this.checklistItemElement)
 		}
 
-		newRow(formData) {
-				this.checklistElement.append(this.makeNewRow(formData))
-				this.checklistStore.set(formData.get('orderid'), formData)
+
+		makeNewItem(order){
+				let newitem = this.makeChecklistItemElement()
+				let labelEl = this.getChecklistItemLabel(newitem)
+
+				newitem.addEventListener('click', e => this.editItem(this.checklistItemElement));
+				newitem.addEventListener('input', e => {
+						this.checklistItemElement.remove()
+						if(this.onRemove) this.onRemove()
+				})
+				newitem.setAttribute('data-order-id', order.get('orderid'));
+
+				labelEl.append(this.makeChecklistLabel(order));
+
+				return newitem;
 		}
 
-		makeNewRow(formData){
-				let newrow = this.cachedChecklistItemElement.cloneNode(true);
-				let inputEl = newrow.firstElementChild;
-				let labelEl = inputEl.nextElementSibling;
+		getChecklistItemInput (checklistItem) {
+				return checklistItem.firstElementChild;
+		}
 
-				newrow.addEventListener('click', e => this.editItem(e.currentTarget));
-				newrow.addEventListener(
-						'input',
-						e => {
-								let orderID = event.target.
-										closest('.checklist-item').
-										getAttribute('data-order-id');
-								this.removeRow(orderID);
-						})
-				newrow.setAttribute('data-order-id', formData.get('orderid'));
-
-				labelEl.append(this.makeChecklistLabel(formData));
-
-				return newrow;
+		getChecklistItemLabel (checklistItem) {
+				return checklistItem.firstElementChild.nextElementSibling;
 		}
 
 		makeChecklistItemElement() {
@@ -57,40 +89,12 @@ export default class Checklist {
 				return formGroup
 		}
 
-		makeChecklistLabel(formData){
-				return `${formData.get('size')} ${formData.get('flavor')} ${formData.get('order')}, (${formData.get('email')}) [${formData.get('caffeine')}x]`
-		}
-
-		removeItemHandler(callback){
-				this.checklistElement.addEventListener(
-						'input',
-						event => {
-								let orderID = event
-										.target
-										.closest('.checklist-item')
-										.getAttribute('data-order-id')
-								callback(orderID);
-						}
-				)
-		}
-
-		removeRow(orderID){
-				this.checklistElement
-						.querySelector(`[data-order-id="${orderID}"]`)
-						.remove();
-				this.checklistStore.delete(orderID)
-		}
-
-		updateRow (formData) {
-				let checklistItemLabel = this.checklistElement.
-						querySelector(`[data-order-id="${formData.get('orderid')}"] > .checklist-item__label`)
-				checklistItemLabel.textContent = makeChecklistLabel(formData)
-
-				this.checklistStore.set(formData.get('orderid'), formData)
+		makeChecklistLabel(order){
+				return `${order.get('size')} ${order.get('flavor')} ${order.get('order')}, (${order.get('email')}) [${order.get('caffeine')}x]`
 		}
 
 		editItem (element) {
-				let editState = element.getAttribute(this.EDIT_STATE_ATTRIBUTE);
+				let editState = element.getAttribute(this.EDIT_STATE_ATTRIBUTE)
 
 				if (editState === this.EDIT_STATES.INACTIVE) {
 						this.inactiveStateToActive(element)
@@ -116,13 +120,15 @@ export default class Checklist {
 		}
 
 		activeStateToEditing (element) {
-				if (this.editingElement) this.editingStateToInactive(this.editingElement)
-				this.editingElement = element
-
 				element.setAttribute(this.EDIT_STATE_ATTRIBUTE, this.EDIT_STATES.EDITING)
 				element.classList.remove('checklist-item--active')
 				element.classList.add('checklist-item--editing')
 				element.querySelector('.checklist-item__checkbox').disabled = true;
+
+				this.startEditingHandler(
+						order => this.updateItem(order),
+						() => this.editingStateToInactive(this.checklistItemElement)
+				)
 		}
 
 		editingStateToInactive (element) {
@@ -130,4 +136,22 @@ export default class Checklist {
 				element.classList.remove('checklist-item--editing')
 				element.querySelector('.checklist-item__checkbox').disabled = false;
 		}
+
+		updateItem (order) {
+				let labelEl = this.getChecklistItemLabel(this.checklistItemElement)
+				labelEl.textContent = this.makeChecklistLabel(order)
+		}
+
+		addRemoveHandler (onRemove) {
+				this.onRemove = onRemove
+		}
+
+		addStartEditingHandler (startEditingHandler) {
+				this.startEditingHandler = startEditingHandler
+		}
+}
+
+export {
+		Checklist,
+		ChecklistItem
 }

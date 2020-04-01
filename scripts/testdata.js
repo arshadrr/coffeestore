@@ -4,9 +4,9 @@ export default function insertTestData (buttonSelector, formSelector) {
 		const [buttonElement, formElement] = [buttonSelector, formSelector].map(s => elementIfExists(s))
 
 		const testData = new Map([
-				['size', 'tall'],
-				['flavor', 'mocha'],
-				['order', 'iced coffee'],
+				['size', 'Tall'],
+				['flavor', 'Mocha'],
+				['order', 'Iced Coffee'],
 				['email', 'person2@example.com'],
 				['caffeine', '12']
 		])

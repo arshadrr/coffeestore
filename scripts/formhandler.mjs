@@ -55,14 +55,18 @@ class FormHandler {
 		}
 
 		startLiveEdit (formData, onEditHandler, doneEditHandler) {
+				// stop previous editing session if not stopped using "Done" button
+				if(this.doneEditHandler) this.doneEditHandler()
+
 				this.isLiveEditing = true;
 				this.doneEditHandler = doneEditHandler
+				this.onEditHandler = onEditHandler
 
 				this.populate(formData)
 				this.submitToEditState()
 				this.formElement.addEventListener('input', event => {
 						if(!this.isLiveEditing) return
-						onEditHandler(this.getFormData())
+						this.onEditHandler(this.getFormData())
 				})
 		}
 
