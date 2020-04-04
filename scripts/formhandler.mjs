@@ -17,6 +17,11 @@ class FormHandler {
 
 				this.resetButton.addEventListener('click', e => this.resetForm(e))
 				this.doneButton.addEventListener('click', e => this.doneEditing())
+				// for live editing
+				this.formElement.addEventListener('input', event => {
+						if(!this.isLiveEditing) return
+						this.onEditHandler(this.getFormData())
+				})
 
 				this.isLiveEditing = false;
 		}
@@ -64,10 +69,6 @@ class FormHandler {
 
 				this.populate(formData)
 				this.submitToEditState()
-				this.formElement.addEventListener('input', event => {
-						if(!this.isLiveEditing) return
-						this.onEditHandler(this.getFormData())
-				})
 		}
 
 		doneEditing () {
