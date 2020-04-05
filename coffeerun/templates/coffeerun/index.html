@@ -1,81 +1,82 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
+    <head>
         <meta charset="UTF-8">
-		<meta name="viewport" value="width=device-width, initial-scale= 1;">
+        <meta name="viewport" value="width=device-width, initial-scale= 1;">
         <title>Coffee App</title>
-		<link rel="stylesheet" href="./css/myboot.css">
-		<script type="module" src="./scripts/main.mjs"></script>
-		<script type="module" src="./scripts/dev.js"></script>
-		<style>
-		@media (min-width: 1200px){
-				.container{
-						max-width: 25vw;
-				}
-		}
-		</style>
-</head>
-<body class="container">
-		<header> <h1>CoffeeRun</h1> </header>
-		<section class="card-columns">
-				<div class="card">
-				        <div class="card__body">
-								<form data-coffee-order="form">
-										<div class="form-group">
-												<label for="coffeeOrder">Coffee Order</label>
-												<input id="coffeeOrder" class="form-control" name="order" autofocus required>
-										</div>
-										<div class="form-group">
-												<label for="email">Email</label>
-												<input id="email" type="email" class="form-control" name="email" placeholder="someone@example.com" required>
-										</div>
-										<div class="form-group">
-												<div class="form-radio">
-														<label class="form-radio__label">
-														<input class="form-radio__input" type="radio" name="size" value="Short" required checked>
-																Short
-														</label>
-												</div>
-												<div class="form-radio">
-														<label class="form-radio__label">
-														<input class="form-radio__input" type="radio" name="size" value="Tall" required>
-																Tall
-														</label>
-												</div>
-												<div class="form-radio">
-														<label class="form-radio__label">
-														<input class="form-radio__input" type="radio" name="size" value="Grande" required>
-																Grande
-														</label>
-												</div>
-										</div>
-										<div class="form-group">
-												<label for="flavorShot">Flavor Shot</label>
-												<select id="flavorShot" name="flavor" class="form-control" required>
-														<option value="">None</option>
-														<option value="Caramel">Caramel</option>
-														<option value="Almond">Almond</option>
-														<option value="Mocha">Mocha</option>
-												</select>
-										</div>
-										<div class="form-group">
-												<label for="caffieneRating">Caffeine rating</label>
-												<div class="caffeine-rating">
-														<input type="range" class="caffeine-rating__slider" name="caffeine" value="50" class="form-control-range" min="0" max="100">
-														<span class="caffeine-rating__label"></span>
-												</div>
-										</div>
-										<div class="form-group">
-												<button type="button" class="btn btn--primary">Done</button>
-												<button type="submit" class="btn btn--primary">Submit</button>
-												<button type="reset" class="btn btn--secondary">Reset</button>
-										</div>
-								</form> 
-				        </div>
-				</div>
-				<div class="card">
-						<div class="card__header">Pending Orders</div>
-						<div class="card__body checklist-container" data-coffee-order="checklist"></div>
-				</div>
-		</section>
-</body>
+        <link rel="stylesheet" href="{% static "coffeerun/css/main.css" %}">
+        <script type="module" src="{% static "coffeerun/js/main.mjs" %}"></script>
+        <script type="module" src="{% static "coffeerun/js/dev.js" %}"></script>
+        <style>
+@media (min-width: 1200px){
+    .container{
+        max-width: 25vw;
+    }
+}
+        </style>
+    </head>
+    <body class="container">
+        <header> <h1>CoffeeRun</h1> </header>
+        <section class="card-columns">
+            <div class="card">
+                <div class="card__body">
+                    <form data-coffee-order="form">
+                        <div class="form-group">
+                            <label for="coffeeOrder">Coffee Order</label>
+                            <input id="coffeeOrder" class="form-control" name="order" autofocus required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input id="email" type="email" class="form-control" name="email" placeholder="someone@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-radio">
+                                <label class="form-radio__label">
+                                    <input class="form-radio__input" type="radio" name="size" value="Short" required checked>
+                                    Short
+                                </label>
+                            </div>
+                            <div class="form-radio">
+                                <label class="form-radio__label">
+                                    <input class="form-radio__input" type="radio" name="size" value="Tall" required>
+                                    Tall
+                                </label>
+                            </div>
+                            <div class="form-radio">
+                                <label class="form-radio__label">
+                                    <input class="form-radio__input" type="radio" name="size" value="Grande" required>
+                                    Grande
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="flavorShot">Flavor Shot</label>
+                            <select id="flavorShot" name="flavor" class="form-control" required>
+                                <option value="">None</option>
+                                <option value="Caramel">Caramel</option>
+                                <option value="Almond">Almond</option>
+                                <option value="Mocha">Mocha</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="caffieneRating">Caffeine rating</label>
+                            <div class="caffeine-rating">
+                                <input type="range" class="caffeine-rating__slider" name="caffeine" value="50" class="form-control-range" min="0" max="100">
+                                <span class="caffeine-rating__label"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn--primary">Done</button>
+                            <button type="submit" class="btn btn--primary">Submit</button>
+                            <button type="reset" class="btn btn--secondary">Reset</button>
+                        </div>
+                    </form> 
+                </div>
+            </div>
+            <div class="card">
+                <div class="card__header">Pending Orders</div>
+                <div class="card__body checklist-container" data-coffee-order="checklist"></div>
+            </div>
+        </section>
+    </body>
