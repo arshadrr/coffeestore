@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha ./static/coffeerun/test/"
   },
   "type": "module",
   "author": "",
@@ -17,7 +17,7 @@
   },
   "mocha": {
     "import": [
-      "./test/_setup.js"
+        "./static/coffeerun/test/_setup.js"
     ]
   }
 }
