@@ -1,10 +1,10 @@
 {
-  "name": "bnrbootstrap",
+  "name": "coffeerun",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./static/coffeerun/test/"
+    "test": "mocha ./testjs/"
   },
   "type": "module",
   "author": "",
@@ -17,7 +17,7 @@
   },
   "mocha": {
     "import": [
-        "./static/coffeerun/test/_setup.js"
+      "./testjs/_setup.js"
     ]
   }
 }
