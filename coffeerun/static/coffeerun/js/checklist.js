@@ -132,7 +132,6 @@ class ChecklistItem {
     }
 
     activeStateToEditing (element) {
-        debugger
         element.setAttribute(this.EDIT_STATE_ATTRIBUTE, this.EDIT_STATES.EDITING)
         element.classList.remove('checklist-item--active')
         element.classList.add('checklist-item--editing')
@@ -145,7 +144,6 @@ class ChecklistItem {
     }
 
     editingStateToInactive (element) {
-        debugger
         element.removeAttribute(this.EDIT_STATE_ATTRIBUTE)
         element.classList.remove('checklist-item--editing')
         element.querySelector('.checklist-item__checkbox').disabled = false;
