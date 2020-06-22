@@ -1,25 +1,5 @@
-/*
- * Idk:
- * 1. css inheritance
- * 2. css specificity. only know its name ;)
- *
- * dos:
- * - refactor this so that we never use color codes(hex, hsl, etc.), and only use the css variables for the palette defined
- * - refactor this so that we dont use spacing willy-nilly and only from the scale defined
- * - remove pxs for ems and rems
- * - read refactoring UI and come up with a type scale
- * - read refactoring UI on coming up with a color palette
- * - read refactoring UI on coming up with spacing scale
- *
- * Qs:
- * - what is .btn-primary:not(:disabled):not(:disabled):active? see bootstrap4 source code
- * - refactoring UI why should I use HSL over hex?
- * - how should i structure my classes? which should go first?(other than those that are expected to override going after what they are to overrride)
- * - how were the .container max-width for the breakpoints decided on?
- */
-
 :root {
-		/* come up with a properly designed color pallette */
+        /* colors */
 		--primary: #333;
 		--gray: #ddd;
 		--light-gray: #f5f5f5;
@@ -57,19 +37,17 @@ label {
 }
 
 h1{
-		font-weight: 500; /* shouldnt i have a typography scale which dictates how stuff like font weights should show up?*/
-		font-size: 2.5rem; /* should i be using the scale for font-sizes?*/
+		font-weight: 500;
+		font-size: 2.5rem;
 }
 
 .container {
-		/* ive subscribed to the design for hackers email course. it has one chapter on this i think. watch out */
 		padding-left: 15px;
 		padding-right: 15px;
 		margin-left: auto;
 		margin-right: auto;
 }
 
-/* the max-widths feel arbitrary! */
 @media (min-width: 768px) {
   .container {
     max-width: 720px;
@@ -95,7 +73,7 @@ h1{
 .card {
 		background-color: white;
 		border: 1px solid rgba(0, 0, 0, 0.125);
-		border-radius: 0.25rem; /* should border-radius use my sizing scale?*/
+		border-radius: 0.25rem; 
 }
 
 .card__body {
@@ -106,9 +84,8 @@ h1{
 		padding: 0.75rem 1.25rem;
 		background-color: rgba(0, 0, 0, 0.05);
 		border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-		border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0; /* should border-radius use my sizing scale?*/
-}
-
+		border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+} 
 
 .form-group {
 		margin-bottom: 1rem;
@@ -135,11 +112,15 @@ h1{
 		width: 100%;
 		padding: 0.5rem 1rem;
 		border: 1px solid rgb(0, 0, 0, 0.125);
-		border-radius: 0.25rem; /* should border-radius use my sizing scale?*/
+		border-radius: 0.25rem;
 }
 
 .form-radio {
-		/* the form radio class is used to make the radio label text wrap properly. when the text wraps, we want the next line to be indented and not show up right below the radio. to see what i mean, have the label be a line of many words so that its too long to fit and wraps. remove this module and see the difference*/
+        /* the form radio class is used to make the radio label text wrap
+         * properly. when the text wraps, we want the next line to be indented
+         * and not show up right below the radio. to see what i mean, have the
+         * label be a line of many words so that its too long to fit and wraps.
+         * remove this module and see the difference*/
 		padding-left: 1.25rem;
 }
 
